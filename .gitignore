@@ -1,0 +1,39 @@
+# Dotnet
+[Db]
+*.db
+*.db-shm
+*.db-wal
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.userprefs
+bin/
+obj/
+Debug/
+Release/
+
+# Node
+node_modules/
+.npm
+npm-debug.log*
+.yarn-integrity
+.next/
+out/
+build/
+dist/
+.env
+.env*.local
+.vercel
+
+# OS / Miscellaneous
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+*.log
+.gemini/

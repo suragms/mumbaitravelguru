@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MumbaiTravelGuru.API/MumbaiTravelGuru.API.csproj" />
+    <Project Path="src/MumbaiTravelGuru.Application.UnitTests/MumbaiTravelGuru.Application.UnitTests.csproj" />
+    <Project Path="src/MumbaiTravelGuru.Application/MumbaiTravelGuru.Application.csproj" />
+    <Project Path="src/MumbaiTravelGuru.Domain/MumbaiTravelGuru.Domain.csproj" />
+    <Project Path="src/MumbaiTravelGuru.Infrastructure/MumbaiTravelGuru.Infrastructure.csproj" />
+  </Folder>
+</Solution>
