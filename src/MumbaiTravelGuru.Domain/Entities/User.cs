@@ -1,20 +1,25 @@
-using System;
+using MumbaiTravelGuru.Domain.Common;
 
-namespace MumbaiTravelGuru.Domain.Entities
+namespace MumbaiTravelGuru.Domain.Entities;
+
+public class User : BaseEntity
 {
-    public class User
-    {
-        public Guid Id { get; set; }
-        public string Email { get; set; } = string.Empty;
-        public string PasswordHash { get; set; } = string.Empty;
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string PhoneNumber { get; set; } = string.Empty;
-        public string Role { get; set; } = "Customer"; // SuperAdmin, Admin, Customer, Operator
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public bool IsDeleted { get; set; } = false;
+    public string Email { get; set; } = string.Empty;
+    public string PasswordHash { get; set; } = string.Empty;
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string? PhoneNumber { get; set; }
+    public bool IsEmailVerified { get; set; }
+    public DateTime? LastLoginAt { get; set; }
 
-        // Navigation
-        public Wallet? Wallet { get; set; }
-    }
+    public string? RefreshToken { get; set; }
+    public DateTime? RefreshTokenExpiry { get; set; }
+
+    public string? GoogleId { get; set; }
+    public string? GoogleEmail { get; set; }
+
+    public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+    public Wallet? Wallet { get; set; }
+    public ICollection<SavedTraveler> SavedTravelers { get; set; } = new List<SavedTraveler>();
+    public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 }

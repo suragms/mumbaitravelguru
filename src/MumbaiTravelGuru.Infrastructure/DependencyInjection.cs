@@ -9,6 +9,10 @@ using MumbaiTravelGuru.Application.Common.Interfaces;
 using MumbaiTravelGuru.Infrastructure.Identity;
 using MumbaiTravelGuru.Infrastructure.Persistence;
 using MumbaiTravelGuru.Infrastructure.Services;
+using MumbaiTravelGuru.Infrastructure.Services.Flights;
+using MumbaiTravelGuru.Infrastructure.Services.Buses;
+using MumbaiTravelGuru.Infrastructure.Services.Hotels;
+using MumbaiTravelGuru.Infrastructure.Services.Payments;
 using StackExchange.Redis;
 
 namespace MumbaiTravelGuru.Infrastructure
@@ -29,6 +33,24 @@ namespace MumbaiTravelGuru.Infrastructure
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<IPasswordHasher, PasswordHasher>();
             services.AddTransient<IJwtTokenService, JwtTokenService>();
+            services.AddTransient<ISmsService, SmsService>();
+            services.AddSingleton<IOtpService, OtpService>();
+
+            services.AddScoped<IFlightSupplierAdapter, MockFlightSupplierAdapter>();
+            services.AddScoped<IHotelSupplierAdapter, MockHotelSupplierAdapter>();
+            services.AddScoped<IBusSupplierAdapter, MockBusSupplierAdapter>();
+            services.AddSingleton<IFareLockStore, InMemoryFareLockStore>();
+
+            var razorpaySettings = new RazorpaySettings
+            {
+                KeyId = configuration["Razorpay:KeyId"] ?? "rzp_test_key",
+                KeySecret = configuration["Razorpay:KeySecret"] ?? "rzp_test_secret",
+                WebhookSecret = configuration["Razorpay:WebhookSecret"] ?? "rzp_test_webhook_secret",
+            };
+            services.AddSingleton(razorpaySettings);
+            services.AddHttpClient<IPaymentGateway, RazorpayPaymentGateway>();
+
+            services.AddHostedService<ReconciliationBackgroundService>();
 
             var redisConnection = configuration.GetValue<string>("Redis:ConnectionString") ?? "localhost:6379";
             try

@@ -1,6 +1,8 @@
 using System.Reflection;
 using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using MumbaiTravelGuru.Application.Common.Behaviours;
 
 namespace MumbaiTravelGuru.Application
 {
@@ -13,6 +15,7 @@ namespace MumbaiTravelGuru.Application
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(AdminAuditLogBehaviour<,>));
             });
 
             return services;

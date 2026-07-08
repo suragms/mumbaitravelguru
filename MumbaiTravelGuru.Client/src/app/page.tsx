@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { 
   Wallet as WalletIcon, 
@@ -10,6 +11,7 @@ import {
   LogOut, 
   Plane, 
   Hotel, 
+  Bus, 
   Compass, 
   ShieldCheck,
   User as UserIcon,
@@ -26,7 +28,7 @@ interface UserDto {
   firstName: string;
   lastName: string;
   phoneNumber: string;
-  role: string;
+  roles: string[];
   createdAt: string;
 }
 
@@ -80,7 +82,7 @@ export default function Home() {
   const [walletSuccess, setWalletSuccess] = useState('');
 
   // OTA Mock Tab state
-  const [otaTab, setOtaTab] = useState<'flights' | 'hotels' | 'holidays'>('flights');
+  const [otaTab, setOtaTab] = useState<'flights' | 'hotels' | 'buses' | 'holidays'>('flights');
 
   // Load token on startup
   useEffect(() => {
@@ -274,9 +276,16 @@ export default function Home() {
                   {currentUser.firstName} {currentUser.lastName}
                 </span>
                 <span className="text-xs text-indigo-400 font-mono capitalize">
-                  {currentUser.role} Account
+                  {currentUser.roles?.[0] || 'User'} Account
                 </span>
               </div>
+              <Link
+                href="/profile"
+                className="bg-slate-900/80 hover:bg-slate-800 border border-slate-700 hover:border-slate-600 text-indigo-400 p-2 rounded-lg transition-all"
+                title="Profile"
+              >
+                <UserIcon className="h-4 w-4" />
+              </Link>
               <button 
                 onClick={handleLogout}
                 className="bg-slate-900/80 hover:bg-slate-800 border border-slate-700 hover:border-slate-600 text-slate-300 p-2 rounded-lg transition-all"
@@ -301,6 +310,20 @@ export default function Home() {
           <p className="text-slate-400 text-base max-w-2xl">
             Compare and book Flights, Hotels, and Holiday Packages. Add funds to your travel wallet to enjoy zero-convenience fee bookings and fast, instant refunds.
           </p>
+          <div className="flex flex-wrap gap-3 mt-4">
+            <Link href="/flights/results?origin=BOM&destination=DEL&tripType=OneWay&adults=1&cabinClass=Economy"
+              className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2.5 rounded-xl font-medium transition-colors">
+              <Plane className="w-4 h-4" /> Search Flights
+            </Link>
+            <Link href="/packages"
+              className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-medium transition-colors">
+              <Compass className="w-4 h-4" /> Holiday Packages
+            </Link>
+            <Link href="/bus"
+              className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white px-6 py-2.5 rounded-xl font-medium transition-colors">
+              <Bus className="w-4 h-4" /> Book Bus Tickets
+            </Link>
+          </div>
         </section>
 
         {!token ? (
@@ -590,6 +613,12 @@ export default function Home() {
                       <Hotel className="h-4 w-4" /> Hotels
                     </button>
                     <button 
+                      onClick={() => setOtaTab('buses')}
+                      className={`flex items-center gap-2 pb-2 text-sm font-semibold border-b-2 transition-all ${otaTab === 'buses' ? 'border-indigo-500 text-white' : 'border-transparent text-slate-450 hover:text-slate-300'}`}
+                    >
+                      <Bus className="h-4 w-4" /> Buses
+                    </button>
+                    <button 
                       onClick={() => setOtaTab('holidays')}
                       className={`flex items-center gap-2 pb-2 text-sm font-semibold border-b-2 transition-all ${otaTab === 'holidays' ? 'border-indigo-500 text-white' : 'border-transparent text-slate-450 hover:text-slate-300'}`}
                     >
@@ -644,6 +673,31 @@ export default function Home() {
                       </div>
                       <button className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold py-2 px-4 rounded-xl transition-all shadow-md shadow-indigo-600/20">
                         Search Hotels
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {otaTab === 'buses' && (
+                  <div className="flex flex-col gap-4 animate-fadeIn">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="bg-slate-900/50 p-3 rounded-xl border border-slate-850">
+                        <span className="text-[10px] text-slate-500 uppercase font-semibold">FROM</span>
+                        <div className="text-sm font-bold text-white mt-0.5">Mumbai</div>
+                        <div className="text-xs text-slate-400">Dadar, Borivali, Andheri</div>
+                      </div>
+                      <div className="bg-slate-900/50 p-3 rounded-xl border border-slate-850">
+                        <span className="text-[10px] text-slate-500 uppercase font-semibold">TO</span>
+                        <div className="text-sm font-bold text-white mt-0.5">Pune</div>
+                        <div className="text-xs text-slate-400">Shivaji Nagar, Swargate</div>
+                      </div>
+                    </div>
+                    <div className="bg-amber-500/5 border border-amber-500/10 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                      <div className="text-xs text-slate-400 text-center sm:text-left">
+                        <span>AC Sleeper, Seater & Volvo buses available. <strong>Free cancellation</strong> up to 4 hours before departure!</span>
+                      </div>
+                      <button className="bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold py-2 px-4 rounded-xl transition-all shadow-md shadow-amber-600/20">
+                        Search Buses
                       </button>
                     </div>
                   </div>

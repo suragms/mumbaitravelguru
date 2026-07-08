@@ -1,87 +1,63 @@
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MumbaiTravelGuru.Application.Common.Interfaces;
 using MumbaiTravelGuru.Domain.Entities;
 
-namespace MumbaiTravelGuru.Infrastructure.Persistence
+namespace MumbaiTravelGuru.Infrastructure.Persistence;
+
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options) { }
+
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Role> Roles => Set<Role>();
+    public DbSet<UserRole> UserRoles => Set<UserRole>();
+    public DbSet<SavedTraveler> SavedTravelers => Set<SavedTraveler>();
+    public DbSet<Wallet> Wallets => Set<Wallet>();
+    public DbSet<WalletTransaction> WalletTransactions => Set<WalletTransaction>();
+    public DbSet<Booking> Bookings => Set<Booking>();
+    public DbSet<Payment> Payments => Set<Payment>();
+    public DbSet<Refund> Refunds => Set<Refund>();
+    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+    public DbSet<Package> Packages => Set<Package>();
+    public DbSet<PackageEnquiry> PackageEnquiries => Set<PackageEnquiry>();
+    public DbSet<PackageBookingDetail> PackageBookingDetails => Set<PackageBookingDetail>();
+    public DbSet<BusBookingDetail> BusBookingDetails => Set<BusBookingDetail>();
+    public DbSet<BusBookedSeat> BusBookedSeats => Set<BusBookedSeat>();
+    public DbSet<Coupon> Coupons => Set<Coupon>();
+    public DbSet<CouponUsage> CouponUsages => Set<CouponUsage>();
+    public DbSet<VendorAccount> VendorAccounts => Set<VendorAccount>();
+    public DbSet<VendorListing> VendorListings => Set<VendorListing>();
+    public DbSet<VendorAvailabilityCalendar> VendorAvailabilityCalendars => Set<VendorAvailabilityCalendar>();
+    public DbSet<VendorBooking> VendorBookings => Set<VendorBooking>();
+    public DbSet<VendorCommission> VendorCommissions => Set<VendorCommission>();
+    public DbSet<VendorPayout> VendorPayouts => Set<VendorPayout>();
+    public DbSet<VendorPayoutLineItem> VendorPayoutLineItems => Set<VendorPayoutLineItem>();
+    public DbSet<BlogPost> BlogPosts => Set<BlogPost>();
+    public DbSet<LandingPage> LandingPages => Set<LandingPage>();
+
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        base.OnModelCreating(builder);
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    }
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        foreach (var entry in ChangeTracker.Entries<Domain.Common.BaseEntity>())
         {
+            if (entry.State == EntityState.Added)
+            {
+                entry.Entity.CreatedAt = DateTime.UtcNow;
+            }
+
+            if (entry.State == EntityState.Modified)
+            {
+                entry.Entity.UpdatedAt = DateTime.UtcNow;
+            }
         }
 
-        public DbSet<User> Users => Set<User>();
-        public DbSet<Wallet> Wallets => Set<Wallet>();
-        public DbSet<WalletTransaction> WalletTransactions => Set<WalletTransaction>();
-        public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-
-            builder.Entity<User>(entity =>
-            {
-                entity.HasKey(u => u.Id);
-                entity.Property(u => u.Id).ValueGeneratedNever();
-                entity.HasIndex(u => u.Email).IsUnique();
-                entity.Property(u => u.Email).IsRequired().HasMaxLength(150);
-                entity.Property(u => u.FirstName).IsRequired().HasMaxLength(50);
-                entity.Property(u => u.LastName).IsRequired().HasMaxLength(50);
-                entity.Property(u => u.PhoneNumber).HasMaxLength(20);
-                
-                entity.HasQueryFilter(u => !u.IsDeleted);
-            });
-
-            builder.Entity<Wallet>(entity =>
-            {
-                entity.HasKey(w => w.Id);
-                entity.Property(w => w.Id).ValueGeneratedNever();
-                entity.Property(w => w.Balance).HasPrecision(18, 2);
-                entity.Property(w => w.Currency).HasMaxLength(3).HasDefaultValue("INR");
-                
-                entity.HasOne(w => w.User)
-                    .WithOne(u => u.Wallet)
-                    .HasForeignKey<Wallet>(w => w.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            builder.Entity<WalletTransaction>(entity =>
-            {
-                entity.HasKey(t => t.Id);
-                entity.Property(t => t.Id).ValueGeneratedNever();
-                entity.Property(t => t.Amount).HasPrecision(18, 2);
-                entity.Property(t => t.Description).HasMaxLength(500);
-                entity.Property(t => t.ReferenceId).HasMaxLength(100);
-
-                entity.HasOne(t => t.Wallet)
-                    .WithMany(w => w.Transactions)
-                    .HasForeignKey(t => t.WalletId)
-                    .OnDelete(DeleteBehavior.Cascade);
-                
-                entity.Property(t => t.Type)
-                    .HasConversion<string>();
-                
-                entity.Property(t => t.Status)
-                    .HasConversion<string>();
-            });
-
-            builder.Entity<AuditLog>(entity =>
-            {
-                entity.HasKey(a => a.Id);
-                entity.Property(a => a.Id).ValueGeneratedNever();
-                entity.Property(a => a.Action).IsRequired().HasMaxLength(100);
-                entity.Property(a => a.UserEmail).HasMaxLength(150);
-                entity.Property(a => a.Details).HasMaxLength(2000);
-            });
-        }
-
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            return await base.SaveChangesAsync(cancellationToken);
-        }
+        return await base.SaveChangesAsync(cancellationToken);
     }
 }

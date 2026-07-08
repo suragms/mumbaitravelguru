@@ -1,70 +1,58 @@
-using System;
-using System.Collections.Generic;
+using MumbaiTravelGuru.Domain.Common;
 using MumbaiTravelGuru.Domain.Enums;
 
-namespace MumbaiTravelGuru.Domain.Entities
+namespace MumbaiTravelGuru.Domain.Entities;
+
+public class Wallet : BaseEntity
 {
-    public class Wallet
+    public Guid UserId { get; set; }
+    public decimal Balance { get; set; }
+    public string Currency { get; set; } = "INR";
+
+    public User User { get; set; } = null!;
+    public ICollection<WalletTransaction> Transactions { get; set; } = new List<WalletTransaction>();
+
+    public WalletTransaction Credit(decimal amount, string description, string referenceId = "")
     {
-        public Guid Id { get; set; }
-        public Guid UserId { get; set; }
-        public decimal Balance { get; private set; }
-        public string Currency { get; set; } = "INR";
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        if (amount <= 0)
+            throw new ArgumentException("Credit amount must be positive.", nameof(amount));
 
-        // Navigation
-        public User? User { get; set; }
-        public ICollection<WalletTransaction> Transactions { get; set; } = new List<WalletTransaction>();
+        Balance += amount;
+        UpdatedAt = DateTime.UtcNow;
 
-        public WalletTransaction Credit(decimal amount, string description, string referenceId = "")
+        var txn = new WalletTransaction
         {
-            if (amount <= 0)
-                throw new ArgumentException("Credit amount must be positive.", nameof(amount));
+            WalletId = Id,
+            Amount = amount,
+            Type = WalletTransactionType.Credit,
+            Status = WalletTransactionStatus.Success,
+            Description = description,
+            ReferenceId = referenceId,
+        };
+        Transactions.Add(txn);
+        return txn;
+    }
 
-            Balance = decimal.Round(Balance + amount, 2, MidpointRounding.AwayFromZero);
-            UpdatedAt = DateTime.UtcNow;
+    public WalletTransaction Debit(decimal amount, string description, string referenceId = "")
+    {
+        if (amount <= 0)
+            throw new ArgumentException("Debit amount must be positive.", nameof(amount));
+        if (Balance < amount)
+            throw new InvalidOperationException("Insufficient funds.");
 
-            var transaction = new WalletTransaction
-            {
-                Id = Guid.NewGuid(),
-                WalletId = Id,
-                Amount = amount,
-                Type = TransactionType.Credit,
-                Status = TransactionStatus.Success,
-                Description = description,
-                ReferenceId = referenceId,
-                CreatedAt = DateTime.UtcNow
-            };
+        Balance -= amount;
+        UpdatedAt = DateTime.UtcNow;
 
-            Transactions.Add(transaction);
-            return transaction;
-        }
-
-        public WalletTransaction Debit(decimal amount, string description, string referenceId = "")
+        var txn = new WalletTransaction
         {
-            if (amount <= 0)
-                throw new ArgumentException("Debit amount must be positive.", nameof(amount));
-
-            if (Balance < amount)
-                throw new InvalidOperationException("Insufficient funds in wallet.");
-
-            Balance = decimal.Round(Balance - amount, 2, MidpointRounding.AwayFromZero);
-            UpdatedAt = DateTime.UtcNow;
-
-            var transaction = new WalletTransaction
-            {
-                Id = Guid.NewGuid(),
-                WalletId = Id,
-                Amount = amount,
-                Type = TransactionType.Debit,
-                Status = TransactionStatus.Success,
-                Description = description,
-                ReferenceId = referenceId,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            Transactions.Add(transaction);
-            return transaction;
-        }
+            WalletId = Id,
+            Amount = amount,
+            Type = WalletTransactionType.Debit,
+            Status = WalletTransactionStatus.Success,
+            Description = description,
+            ReferenceId = referenceId,
+        };
+        Transactions.Add(txn);
+        return txn;
     }
 }

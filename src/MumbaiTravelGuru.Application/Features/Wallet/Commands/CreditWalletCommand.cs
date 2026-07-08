@@ -50,7 +50,7 @@ namespace MumbaiTravelGuru.Application.Features.Wallet.Commands
             {
                 var existingTx = await _context.WalletTransactions
                     .AsNoTracking()
-                    .FirstOrDefaultAsync(t => t.WalletId == wallet.Id && t.ReferenceId == request.ReferenceId && t.Type == Domain.Enums.TransactionType.Credit, cancellationToken);
+                    .FirstOrDefaultAsync(t => t.WalletId == wallet.Id && t.ReferenceId == request.ReferenceId && t.Type == Domain.Enums.WalletTransactionType.Credit, cancellationToken);
 
                 if (existingTx != null)
                 {
@@ -78,12 +78,10 @@ namespace MumbaiTravelGuru.Application.Features.Wallet.Commands
 
             var auditLog = new AuditLog
             {
-                Id = Guid.NewGuid(),
                 Action = "WalletCredit",
                 UserId = wallet.UserId,
                 UserEmail = userEmail,
                 Details = $"Credited {wallet.Currency} {request.Amount:F2}. Reason: {request.Description}. New Balance: {wallet.Currency} {wallet.Balance:F2}",
-                Timestamp = _dateTime.UtcNow
             };
             _context.AuditLogs.Add(auditLog);
 

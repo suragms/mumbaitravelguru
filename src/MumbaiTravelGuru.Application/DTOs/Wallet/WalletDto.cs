@@ -8,6 +8,6 @@ namespace MumbaiTravelGuru.Application.DTOs.Wallet
         public Guid UserId { get; set; }
         public decimal Balance { get; set; }
         public string Currency { get; set; } = "INR";
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }

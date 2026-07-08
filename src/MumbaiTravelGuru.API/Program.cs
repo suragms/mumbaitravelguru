@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
@@ -7,6 +8,7 @@ using MumbaiTravelGuru.Infrastructure;
 using MumbaiTravelGuru.API.Services;
 using MumbaiTravelGuru.API.Middleware;
 using MumbaiTravelGuru.Application.Common.Interfaces;
+using MumbaiTravelGuru.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -88,5 +90,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Seed packages
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+    await PackageSeeder.SeedAsync(db);
+}
 
 app.Run();
