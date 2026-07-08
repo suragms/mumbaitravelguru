@@ -68,6 +68,8 @@ namespace MumbaiTravelGuru.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IsDeleted", "Action", "CreatedAt");
+
                     b.ToTable("AuditLogs", (string)null);
                 });
 
@@ -222,6 +224,12 @@ namespace MumbaiTravelGuru.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("IsDeleted", "CreatedAt");
+
+                    b.HasIndex("IsDeleted", "Status", "BookingType");
+
+                    b.HasIndex("IsDeleted", "Status", "CompletedAt");
 
                     b.ToTable("Bookings", (string)null);
                 });

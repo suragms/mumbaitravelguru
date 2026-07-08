@@ -4,6 +4,8 @@ namespace MumbaiTravelGuru.Infrastructure.Persistence;
 
 public static class PackageSeeder
 {
+    private static DateTime UtcDate(int year, int month, int day) => new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc);
+
     public static async Task SeedAsync(ApplicationDbContext context)
     {
         if (context.Packages.Any()) return;
@@ -53,9 +55,9 @@ public static class PackageSeeder
                 },
                 FixedDepartures = new List<FixedDeparture>
                 {
-                    new() { StartDate = new DateTime(2026, 10, 5), EndDate = new DateTime(2026, 10, 8), PricePerPerson = 14999, DiscountedPricePerPerson = 12999, AvailableSpots = 15, TotalSpots = 20 },
-                    new() { StartDate = new DateTime(2026, 10, 19), EndDate = new DateTime(2026, 10, 22), PricePerPerson = 14999, DiscountedPricePerPerson = 12999, AvailableSpots = 12, TotalSpots = 20 },
-                    new() { StartDate = new DateTime(2026, 11, 10), EndDate = new DateTime(2026, 11, 13), PricePerPerson = 15999, DiscountedPricePerPerson = 13999, AvailableSpots = 18, TotalSpots = 20 },
+                    new() { StartDate = UtcDate(2026, 10, 5), EndDate = UtcDate(2026, 10, 8), PricePerPerson = 14999, DiscountedPricePerPerson = 12999, AvailableSpots = 15, TotalSpots = 20 },
+                    new() { StartDate = UtcDate(2026, 10, 19), EndDate = UtcDate(2026, 10, 22), PricePerPerson = 14999, DiscountedPricePerPerson = 12999, AvailableSpots = 12, TotalSpots = 20 },
+                    new() { StartDate = UtcDate(2026, 11, 10), EndDate = UtcDate(2026, 11, 13), PricePerPerson = 15999, DiscountedPricePerPerson = 13999, AvailableSpots = 18, TotalSpots = 20 },
                 },
             },
             new()
@@ -105,9 +107,9 @@ public static class PackageSeeder
                 },
                 FixedDepartures = new List<FixedDeparture>
                 {
-                    new() { StartDate = new DateTime(2026, 9, 12), EndDate = new DateTime(2026, 9, 17), PricePerPerson = 24999, DiscountedPricePerPerson = 21999, AvailableSpots = 10, TotalSpots = 15 },
-                    new() { StartDate = new DateTime(2026, 10, 10), EndDate = new DateTime(2026, 10, 15), PricePerPerson = 24999, DiscountedPricePerPerson = 21999, AvailableSpots = 8, TotalSpots = 15 },
-                    new() { StartDate = new DateTime(2026, 11, 7), EndDate = new DateTime(2026, 11, 12), PricePerPerson = 26999, DiscountedPricePerPerson = 23999, AvailableSpots = 14, TotalSpots = 15 },
+                    new() { StartDate = UtcDate(2026, 9, 12), EndDate = UtcDate(2026, 9, 17), PricePerPerson = 24999, DiscountedPricePerPerson = 21999, AvailableSpots = 10, TotalSpots = 15 },
+                    new() { StartDate = UtcDate(2026, 10, 10), EndDate = UtcDate(2026, 10, 15), PricePerPerson = 24999, DiscountedPricePerPerson = 21999, AvailableSpots = 8, TotalSpots = 15 },
+                    new() { StartDate = UtcDate(2026, 11, 7), EndDate = UtcDate(2026, 11, 12), PricePerPerson = 26999, DiscountedPricePerPerson = 23999, AvailableSpots = 14, TotalSpots = 15 },
                 },
             },
             new()
@@ -159,9 +161,9 @@ public static class PackageSeeder
                 },
                 FixedDepartures = new List<FixedDeparture>
                 {
-                    new() { StartDate = new DateTime(2026, 10, 3), EndDate = new DateTime(2026, 10, 10), PricePerPerson = 34999, DiscountedPricePerPerson = 29999, AvailableSpots = 12, TotalSpots = 16 },
-                    new() { StartDate = new DateTime(2026, 11, 7), EndDate = new DateTime(2026, 11, 14), PricePerPerson = 34999, DiscountedPricePerPerson = 29999, AvailableSpots = 10, TotalSpots = 16 },
-                    new() { StartDate = new DateTime(2026, 12, 5), EndDate = new DateTime(2026, 12, 12), PricePerPerson = 39999, DiscountedPricePerPerson = 34999, AvailableSpots = 8, TotalSpots = 16 },
+                    new() { StartDate = UtcDate(2026, 10, 3), EndDate = UtcDate(2026, 10, 10), PricePerPerson = 34999, DiscountedPricePerPerson = 29999, AvailableSpots = 12, TotalSpots = 16 },
+                    new() { StartDate = UtcDate(2026, 11, 7), EndDate = UtcDate(2026, 11, 14), PricePerPerson = 34999, DiscountedPricePerPerson = 29999, AvailableSpots = 10, TotalSpots = 16 },
+                    new() { StartDate = UtcDate(2026, 12, 5), EndDate = UtcDate(2026, 12, 12), PricePerPerson = 39999, DiscountedPricePerPerson = 34999, AvailableSpots = 8, TotalSpots = 16 },
                 },
             },
             new()
