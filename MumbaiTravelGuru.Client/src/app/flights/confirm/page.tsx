@@ -17,9 +17,17 @@ interface ConfirmResult {
 }
 
 export default function FlightConfirmPage() {
-  return <Suspense fallback={<div className="min-h-screen bg-slate-950 flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-indigo-500" /></div>}>
-    <FlightConfirmContent />
-  </Suspense>;
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-dvh bg-sea-deep flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-gate-gold border-t-transparent" />
+        </div>
+      }
+    >
+      <FlightConfirmContent />
+    </Suspense>
+  );
 }
 
 function FlightConfirmContent() {
@@ -58,39 +66,39 @@ function FlightConfirmContent() {
 
   if (step === 'done' && result) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
-        <div className="max-w-lg w-full metal-card rounded-2xl p-8 text-center">
-          <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-white mb-2">Booking Confirmed!</h1>
-          <p className="text-slate-400 mb-6">Your flight has been booked successfully.</p>
+      <div className="min-h-dvh bg-sea-deep flex items-center justify-center p-4">
+        <div className="max-w-lg w-full bg-harbour border border-monsoon/60 rounded-2xl p-8 text-center animate-fade-in">
+          <CheckCircle className="w-14 h-14 text-emerald-400 mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-paper mb-2 font-display">Booking Confirmed!</h1>
+          <p className="text-sm text-sandstone/70 mb-6">Your flight has been booked successfully.</p>
 
-          <div className="bg-slate-900 rounded-xl p-5 mb-6 space-y-3 text-left">
+          <div className="bg-sea-deep border border-monsoon/50 rounded-xl p-5 mb-6 space-y-3 text-left">
             <div className="flex justify-between">
-              <span className="text-slate-400">PNR Number</span>
-              <span className="text-white font-mono font-bold">{result.pnrNumber}</span>
+              <span className="text-xs text-sandstone/60">PNR Number</span>
+              <span className="text-paper font-mono font-bold text-sm">{result.pnrNumber}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-400">Status</span>
-              <span className="text-green-400">{result.ticketStatus}</span>
+              <span className="text-xs text-sandstone/60">Status</span>
+              <span className="text-emerald-400 text-xs font-medium">{result.ticketStatus}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-400">Booking ID</span>
-              <span className="text-white text-sm">{result.bookingId?.slice(0, 8)}...</span>
+              <span className="text-xs text-sandstone/60">Booking ID</span>
+              <span className="text-paper font-mono text-xs">{result.bookingId?.slice(0, 8)}...</span>
             </div>
-            <div className="border-t border-slate-700 pt-3 mt-3">
-              <Link href={result.eTicketUrl || '#'} className="flex items-center justify-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors">
+            <div className="border-t border-monsoon/40 pt-3 mt-3">
+              <Link href={result.eTicketUrl || '#'} className="flex items-center justify-center gap-2 text-gate-gold hover:text-gate-gold-dim text-sm font-medium transition-colors">
                 <Download className="w-4 h-4" /> Download E-Ticket
               </Link>
             </div>
           </div>
 
-          <p className="text-xs text-slate-500 mb-6">Your e-ticket has been issued. Please check your email for the booking confirmation.</p>
+          <p className="text-xs text-sandstone/50 mb-6">Your e-ticket has been issued. Check your email for confirmation.</p>
 
           <div className="flex gap-3">
-            <Link href="/" className="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-medium transition-colors">
+            <Link href="/" className="flex-1 bg-monsoon hover:bg-monsoon-light text-paper py-3 rounded-xl font-medium text-sm transition-colors">
               Go to Dashboard
             </Link>
-            <button onClick={() => window.print()} className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-medium transition-colors">
+            <button onClick={() => window.print()} className="flex-1 bg-gate-gold hover:bg-gate-gold-dim text-sea-deep py-3 rounded-xl font-bold text-sm transition-colors">
               Print Ticket
             </button>
           </div>
@@ -100,74 +108,85 @@ function FlightConfirmContent() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm">
-        <div className="max-w-3xl mx-auto px-4 py-4 flex items-center gap-4">
-          <Link href="/" className="text-indigo-400 font-bold">MumbaiTravelGuru</Link>
-          <span className="text-slate-600">/</span>
-          <span className="text-slate-300 text-sm">Payment</span>
+    <div className="min-h-dvh bg-sea-deep">
+      <header className="sticky top-0 z-30 border-b border-monsoon/60 bg-sea-deep/85 backdrop-blur-md">
+        <div className="max-w-3xl mx-auto px-4 h-14 flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="bg-gate-gold/15 p-1 rounded-lg">
+              <Plane className="w-4 h-4 text-gate-gold" />
+            </div>
+            <span className="font-display text-sm text-paper tracking-wide">Mumbai Travel Guru</span>
+          </Link>
+          <span className="text-monsoon-light text-xs">/</span>
+          <span className="text-sandstone/60 text-xs">Payment</span>
         </div>
       </header>
 
       <main className="max-w-3xl mx-auto px-4 py-8">
         {step === 'confirming' && (
           <div className="flex flex-col items-center justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-indigo-500 mb-4" />
-            <p className="text-slate-300 text-lg">Confirming your booking...</p>
-            <p className="text-slate-500 text-sm mt-2">Please wait while we process your payment and issue the ticket.</p>
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-gate-gold border-t-transparent mb-4" />
+            <p className="text-paper/80 text-sm font-medium">Confirming your booking...</p>
+              <p className="text-sandstone/50 text-xs mt-2">Confirming your payment and issuing your ticket.</p>
           </div>
         )}
 
         {(step === 'payment' || step === 'error') && (
-          <div className="max-w-md mx-auto space-y-6">
-            <h1 className="text-xl font-bold text-white">Complete Payment</h1>
+          <div className="max-w-md mx-auto space-y-5">
+            <h1 className="font-display text-xl text-paper">Complete Payment</h1>
 
             {error && (
-              <div className="bg-red-900/30 border border-red-800 text-red-300 px-4 py-3 rounded-xl text-sm flex items-center gap-2">
+              <div className="bg-gate-gold/10 border border-gate-gold/20 text-gate-gold px-4 py-3 rounded-xl text-xs flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 {error}
               </div>
             )}
 
             {priceInfo.lockedPrice && (
-              <div className="metal-card rounded-xl p-5">
-                <p className="text-sm text-slate-400 mb-1">Total Amount</p>
-                <p className="text-3xl font-bold text-indigo-400">₹{Number(priceInfo.lockedPrice).toLocaleString('en-IN')}</p>
-                <p className="text-xs text-slate-500 mt-2 flex items-center gap-1">
+              <div className="bg-harbour border border-monsoon/50 rounded-xl p-5">
+                <p className="text-xs text-sandstone/60 mb-1">Total Amount</p>
+                <p className="text-3xl font-bold font-mono text-gate-gold">₹{Number(priceInfo.lockedPrice).toLocaleString('en-IN')}</p>
+                <p className="text-xs text-sandstone/50 mt-2 flex items-center gap-1">
                   <Clock className="w-3 h-3" /> Expires at {new Date(priceInfo.expiresAtUtc).toLocaleTimeString()}
                 </p>
               </div>
             )}
 
-            <div className="metal-card rounded-xl p-5">
-              <h2 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-                <CreditCard className="w-4 h-4 text-indigo-400" /> Payment Method
+            <div className="bg-harbour border border-monsoon/50 rounded-xl p-5">
+              <h2 className="text-xs font-semibold text-paper/80 mb-3 flex items-center gap-2 uppercase tracking-wider">
+                <CreditCard className="w-3.5 h-3.5 text-gate-gold" /> Payment Method
               </h2>
               <div className="space-y-2">
                 {['UPI', 'CreditCard', 'DebitCard', 'NetBanking', 'Wallet'].map(m => (
-                  <label key={m} className="flex items-center gap-3 p-3 rounded-lg bg-slate-900 border border-slate-700 cursor-pointer hover:border-indigo-500 transition-colors">
-                    <input type="radio" name="payment" value={m} checked={paymentMethod === m} onChange={e => setPaymentMethod(e.target.value)}
-                      className="accent-indigo-500" />
-                    <span className="text-sm text-slate-200">{m === 'CreditCard' ? 'Credit Card' : m === 'DebitCard' ? 'Debit Card' : m === 'NetBanking' ? 'Net Banking' : m}</span>
+                  <label key={m} className="flex items-center gap-3 p-3 rounded-lg bg-sea-deep border border-monsoon/50 cursor-pointer hover:border-gate-gold/40 transition-colors">
+                    <input
+                      type="radio" name="payment" value={m}
+                      checked={paymentMethod === m}
+                      onChange={e => setPaymentMethod(e.target.value)}
+                      className="accent-gate-gold w-4 h-4"
+                    />
+                    <span className="text-xs text-sandstone/70">
+                      {m === 'CreditCard' ? 'Credit Card' : m === 'DebitCard' ? 'Debit Card' : m === 'NetBanking' ? 'Net Banking' : m}
+                    </span>
                   </label>
                 ))}
               </div>
             </div>
 
-            <div className="metal-card rounded-xl p-4 flex items-start gap-3 text-sm text-slate-400">
-              <Shield className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
+            <div className="bg-harbour border border-monsoon/50 rounded-xl p-4 flex items-start gap-3 text-xs text-sandstone/60">
+              <Shield className="w-4 h-4 text-gate-gold shrink-0 mt-0.5" />
               <div>
-                <p className="text-white font-medium mb-1">Price Guarantee</p>
-                <p>The price has been re-validated server-side. The amount shown is the final locked fare.</p>
+                <p className="text-paper/80 font-medium text-xs mb-1">Price Guarantee</p>
+                <p>This fare is locked and guaranteed for your booking.</p>
               </div>
             </div>
 
             <button onClick={handlePay}
-              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-semibold transition-colors text-lg">
+              className="w-full bg-gate-gold hover:bg-gate-gold-dim text-sea-deep py-3 rounded-xl font-bold text-sm transition-colors">
               Pay ₹{priceInfo.lockedPrice ? Number(priceInfo.lockedPrice).toLocaleString('en-IN') : '...'}
             </button>
 
-            <p className="text-xs text-slate-500 text-center">By clicking Pay, you agree to the fare rules and cancellation policy.</p>
+            <p className="text-xs text-sandstone/50 text-center">By clicking Pay, you agree to the fare rules and cancellation policy.</p>
           </div>
         )}
       </main>

@@ -23,7 +23,7 @@ function FailedContent() {
           <AlertCircle className="w-10 h-10 text-red-400" />
         </div>
         <h1 className="text-2xl font-bold text-white mb-2">Payment Failed</h1>
-        <p className="text-slate-400 mb-4">{error || 'Your payment could not be processed. Please try again.'}</p>
+        <p className="text-slate-400 mb-4">{error || 'Your payment was declined. Try a different card or UPI.'}</p>
 
         <div className="bg-slate-900/50 rounded-xl p-4 border border-slate-800 text-left mb-8">
           <div className="text-sm text-slate-400">Booking ID</div>

@@ -53,7 +53,7 @@ export default function VendorDashboardPage() {
     );
   }
 
-  if (!data) return <div className="text-slate-400 text-center py-20">Failed to load dashboard.</div>;
+  if (!data) return <div className="text-slate-400 text-center py-20">Could not load dashboard data.</div>;
 
   const statCards = [
     { label: 'Active Listings', value: data.activeListings, icon: Store, color: 'text-indigo-400 bg-indigo-500/10' },

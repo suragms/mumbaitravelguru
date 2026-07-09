@@ -71,7 +71,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
       <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm">
         <div className="max-w-3xl mx-auto px-4 py-4 flex items-center gap-4">
-          <Link href="/" className="text-indigo-400 font-bold text-lg">MumbaiTravelGuru</Link>
+          <Link href="/" className="text-indigo-400 font-bold text-lg">Mumbai Travel Guru</Link>
           <span className="text-slate-600">/</span>
           <Link href="/blog" className="text-slate-400 hover:text-slate-200 text-sm">Blog</Link>
           <span className="text-slate-600">/</span>

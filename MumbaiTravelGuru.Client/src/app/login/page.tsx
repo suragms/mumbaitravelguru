@@ -68,7 +68,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-slate-950 p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-indigo-400">MumbaiTravelGuru</h1>
+          <h1 className="text-3xl font-bold text-indigo-400">Mumbai Travel Guru</h1>
           <p className="text-slate-400 mt-2">Sign in to your account</p>
         </div>
 
@@ -76,13 +76,13 @@ export default function LoginPage() {
           <div className="flex mb-6 bg-slate-900 rounded-lg p-1">
             <button
               onClick={() => { setActiveTab('email'); setOtpSent(false); setError(''); }}
-              className={`flex-1 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'email' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'}`}
+              className={`flex-1 py-3 rounded-md text-sm font-medium transition-colors ${activeTab === 'email' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'}`}
             >
               <Mail className="inline w-4 h-4 mr-1" /> Email
             </button>
             <button
               onClick={() => { setActiveTab('otp'); setError(''); }}
-              className={`flex-1 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'otp' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'}`}
+              className={`flex-1 py-3 rounded-md text-sm font-medium transition-colors ${activeTab === 'otp' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'}`}
             >
               <Smartphone className="inline w-4 h-4 mr-1" /> OTP
             </button>
@@ -127,7 +127,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-lg font-medium transition-colors disabled:opacity-50"
+                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-lg font-medium transition-colors disabled:opacity-50"
               >
                 {loading ? 'Signing in...' : 'Sign In'}
               </button>
@@ -153,7 +153,7 @@ export default function LoginPage() {
                   <button
                     onClick={handleSendOtp}
                     disabled={loading}
-                    className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-lg font-medium transition-colors disabled:opacity-50"
+                    className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-lg font-medium transition-colors disabled:opacity-50"
                   >
                     {loading ? 'Sending...' : 'Send OTP'}
                   </button>
@@ -178,7 +178,7 @@ export default function LoginPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-lg font-medium transition-colors disabled:opacity-50"
+                    className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-lg font-medium transition-colors disabled:opacity-50"
                   >
                     {loading ? 'Verifying...' : 'Verify & Sign In'}
                   </button>
@@ -205,7 +205,7 @@ export default function LoginPage() {
 
           <button
             onClick={handleGoogleLogin}
-            className="w-full bg-white hover:bg-gray-100 text-slate-900 py-2.5 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+            className="w-full bg-white hover:bg-gray-100 text-slate-900 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>

@@ -37,7 +37,7 @@ export default async function BlogPage() {
     <div className="min-h-screen bg-slate-950">
       <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center gap-4">
-          <Link href="/" className="text-indigo-400 font-bold text-lg">MumbaiTravelGuru</Link>
+          <Link href="/" className="text-indigo-400 font-bold text-lg">Mumbai Travel Guru</Link>
           <span className="text-slate-600">/</span>
           <span className="text-slate-300 text-sm">Blog</span>
         </div>

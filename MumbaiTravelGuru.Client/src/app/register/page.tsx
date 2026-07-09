@@ -36,7 +36,7 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-slate-950 p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-indigo-400">MumbaiTravelGuru</h1>
+          <h1 className="text-3xl font-bold text-indigo-400">Mumbai Travel Guru</h1>
           <p className="text-slate-400 mt-2">Create your account</p>
         </div>
 
@@ -124,7 +124,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-lg font-medium transition-colors disabled:opacity-50"
+              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-lg font-medium transition-colors disabled:opacity-50"
             >
               {loading ? 'Creating account...' : 'Create Account'}
             </button>

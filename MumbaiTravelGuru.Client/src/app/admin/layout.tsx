@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { getStoredToken, loadTokens } from '@/lib/api';
 import {
-  LayoutDashboard, ShoppingBag, Users, History, LogOut, Menu, X, Compass, Tag, FileText
+  LayoutDashboard, ShoppingBag, Users, History, LogOut, Menu, X, Compass, Tag, FileText,
 } from 'lucide-react';
 
 const navItems = [
@@ -34,50 +34,61 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [router]);
 
   if (!authorized) {
-    return <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-      <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-indigo-500" />
-    </div>;
+    return (
+      <div className="min-h-dvh bg-sea-deep flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-2 border-gate-gold border-t-transparent" />
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 flex">
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 border-r border-slate-800 transform transition-transform lg:translate-x-0 lg:static lg:inset-auto ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="h-16 flex items-center justify-between px-6 border-b border-slate-800">
-          <Link href="/admin" className="flex items-center gap-2 text-indigo-400 font-bold text-lg">
-            <Compass className="w-5 h-5" /> Admin
+    <div className="min-h-dvh bg-sea-deep flex">
+      {/* Sidebar */}
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-harbour border-r border-monsoon/60 transform transition-transform lg:translate-x-0 lg:static lg:inset-auto ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="h-14 flex items-center justify-between px-5 border-b border-monsoon/50">
+          <Link href="/admin" className="flex items-center gap-2">
+            <div className="bg-gate-gold/15 p-1 rounded-lg">
+              <Compass className="w-4 h-4 text-gate-gold" />
+            </div>
+            <span className="font-display text-sm text-paper tracking-wide">Admin</span>
           </Link>
-          <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-slate-400 hover:text-white">
-            <X className="w-5 h-5" />
+          <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-sandstone/60 hover:text-paper transition-colors">
+            <X className="w-4 h-4" />
           </button>
         </div>
-        <nav className="p-4 space-y-1">
+        <nav className="p-3 space-y-0.5">
           {navItems.map(item => {
             const active = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
             return (
               <Link key={item.href} href={item.href}
-                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${active ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/20' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'}`}
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+                  active
+                    ? 'bg-gate-gold/10 text-gate-gold border border-gate-gold/20'
+                    : 'text-sandstone/60 hover:text-sandstone hover:bg-monsoon/30'
+                }`}
                 onClick={() => setSidebarOpen(false)}>
                 <item.icon className="w-4 h-4" /> {item.label}
               </Link>
             );
           })}
         </nav>
-        <div className="absolute bottom-4 left-4 right-4">
+        <div className="absolute bottom-3 left-3 right-3">
           <Link href="/"
-            className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm text-slate-500 hover:text-slate-300 hover:bg-slate-800 transition-colors">
+            className="flex items-center gap-3 px-3 py-2 rounded-lg text-xs text-sandstone/50 hover:text-sandstone hover:bg-monsoon/30 transition-colors">
             <LogOut className="w-4 h-4" /> Back to Site
           </Link>
         </div>
       </aside>
 
-      <div className="flex-1 flex flex-col min-h-screen">
-        <header className="h-16 border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm flex items-center justify-between px-6">
-          <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-slate-400 hover:text-white">
-            <Menu className="w-5 h-5" />
+      {/* Main area */}
+      <div className="flex-1 flex flex-col min-h-dvh">
+        <header className="h-14 border-b border-monsoon/60 bg-sea-deep/85 backdrop-blur-md flex items-center justify-between px-4 lg:px-6">
+          <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-sandstone/60 hover:text-paper transition-colors">
+            <Menu className="w-4 h-4" />
           </button>
-          <div className="text-sm text-slate-400">Admin Panel</div>
+          <div className="text-xs text-sandstone/60 ml-auto">Admin Panel</div>
         </header>
-        <main className="flex-1 p-6">{children}</main>
+        <main className="flex-1 p-4 lg:p-6">{children}</main>
       </div>
     </div>
   );

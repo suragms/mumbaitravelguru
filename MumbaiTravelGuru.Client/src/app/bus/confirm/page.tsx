@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { apiRequest } from '@/lib/api';
-import { Bus, CheckCircle, AlertCircle, User, Clock, MapPin, Download } from 'lucide-react';
+import { Bus, CheckCircle, AlertCircle, ArrowLeft, User, Clock, MapPin, Download } from 'lucide-react';
 
 interface TravelerForm {
   name: string;
@@ -41,9 +41,17 @@ function priceINR(price: number) {
 }
 
 export default function BusConfirmPage() {
-  return <Suspense fallback={<div className="min-h-screen bg-slate-950 flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-indigo-500" /></div>}>
-    <BusConfirmContent />
-  </Suspense>;
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-dvh bg-sea-deep flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-gate-gold border-t-transparent" />
+        </div>
+      }
+    >
+      <BusConfirmContent />
+    </Suspense>
+  );
 }
 
 function BusConfirmContent() {
@@ -144,45 +152,45 @@ function BusConfirmContent() {
 
   if (step === 'done' && confirmResult) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
-        <div className="max-w-lg w-full metal-card rounded-2xl p-8 text-center">
-          <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-white mb-2">Booking Confirmed!</h1>
-          <p className="text-slate-400 mb-6">Your bus tickets have been booked successfully.</p>
+      <div className="min-h-dvh bg-sea-deep flex items-center justify-center p-4">
+        <div className="max-w-lg w-full bg-harbour border border-monsoon/60 rounded-2xl p-8 text-center animate-fade-in">
+          <CheckCircle className="w-14 h-14 text-emerald-400 mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-paper mb-2 font-display">Booking Confirmed!</h1>
+          <p className="text-sm text-sandstone/70 mb-6">Your bus tickets are booked.</p>
 
-          <div className="bg-slate-900 rounded-xl p-5 mb-6 space-y-3 text-left">
+          <div className="bg-sea-deep border border-monsoon/50 rounded-xl p-5 mb-6 space-y-3 text-left">
             <div className="flex justify-between">
-              <span className="text-slate-400">PNR Number</span>
-              <span className="text-white font-mono font-bold">{confirmResult.pnrNumber || confirmResult.confirmationNumber}</span>
+              <span className="text-xs text-sandstone/60">PNR Number</span>
+              <span className="text-paper font-mono font-bold text-sm">{confirmResult.pnrNumber || confirmResult.confirmationNumber}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-400">Booking ID</span>
-              <span className="text-white text-sm">{confirmResult.bookingId?.slice(0, 12)}...</span>
+              <span className="text-xs text-sandstone/60">Booking ID</span>
+              <span className="text-paper font-mono text-xs">{confirmResult.bookingId?.slice(0, 12)}...</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-400">Route</span>
-              <span className="text-white text-sm">{origin} → {destination}</span>
+              <span className="text-xs text-sandstone/60">Route</span>
+              <span className="text-paper text-xs font-medium">{origin} &rarr; {destination}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-400">Seats</span>
-              <span className="text-white text-sm">{seatIds.join(', ')}</span>
+              <span className="text-xs text-sandstone/60">Seats</span>
+              <span className="text-paper font-mono text-xs">{seatIds.join(', ')}</span>
             </div>
             {confirmResult.ticketUrl && (
-              <div className="border-t border-slate-700 pt-3 mt-3">
-                <Link href={confirmResult.ticketUrl} className="flex items-center justify-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors">
+              <div className="border-t border-monsoon/40 pt-3 mt-3">
+                <Link href={confirmResult.ticketUrl} className="flex items-center justify-center gap-2 text-gate-gold hover:text-gate-gold-dim text-sm font-medium transition-colors">
                   <Download className="w-4 h-4" /> Download Ticket
                 </Link>
               </div>
             )}
           </div>
 
-          <p className="text-xs text-slate-500 mb-6">Your e-ticket has been issued. Please check your email for the booking confirmation.</p>
+          <p className="text-xs text-sandstone/50 mb-6">Your e-ticket has been issued. Check your email for confirmation.</p>
 
           <div className="flex gap-3">
-            <Link href="/" className="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-medium transition-colors">
+            <Link href="/" className="flex-1 bg-monsoon hover:bg-monsoon-light text-paper py-3 rounded-xl font-medium text-sm transition-colors">
               Go to Dashboard
             </Link>
-            <button onClick={() => window.print()} className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-medium transition-colors">
+            <button onClick={() => window.print()} className="flex-1 bg-gate-gold hover:bg-gate-gold-dim text-sea-deep py-3 rounded-xl font-bold text-sm transition-colors">
               Print Ticket
             </button>
           </div>
@@ -192,85 +200,86 @@ function BusConfirmContent() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm">
-        <div className="max-w-3xl mx-auto px-4 py-4 flex items-center gap-4">
-          <Link href="/" className="text-indigo-400 font-bold">MumbaiTravelGuru</Link>
-          <span className="text-slate-600">/</span>
-          <span className="text-slate-300 text-sm">{step === 'payment' ? 'Payment' : 'Confirm Booking'}</span>
+    <div className="min-h-dvh bg-sea-deep">
+      <header className="sticky top-0 z-30 border-b border-monsoon/60 bg-sea-deep/85 backdrop-blur-md">
+        <div className="max-w-3xl mx-auto px-4 h-14 flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="bg-gate-gold/15 p-1 rounded-lg">
+              <Bus className="w-4 h-4 text-gate-gold" />
+            </div>
+            <span className="font-display text-sm text-paper tracking-wide">Mumbai Travel Guru</span>
+          </Link>
+          <span className="text-monsoon-light text-xs">/</span>
+          <span className="text-sandstone/60 text-xs">{step === 'payment' ? 'Payment' : 'Confirm Booking'}</span>
         </div>
       </header>
 
       <main className="max-w-3xl mx-auto px-4 py-8">
         {(step === 'initiating' || step === 'confirming') && (
           <div className="flex flex-col items-center justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-indigo-500 mb-4" />
-            <p className="text-slate-300 text-lg">
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-gate-gold border-t-transparent mb-4" />
+            <p className="text-paper/80 text-sm font-medium">
               {step === 'initiating' ? 'Initiating booking...' : 'Confirming your booking...'}
             </p>
-            <p className="text-slate-500 text-sm mt-2">Please wait while we process your request.</p>
+            <p className="text-sandstone/50 text-xs mt-2">Processing your booking.</p>
           </div>
         )}
 
         {(step === 'form' || step === 'error') && (
           <>
             <div className="flex items-center gap-3 mb-6">
-              <button onClick={() => router.back()} className="text-slate-400 hover:text-white"><span className="w-5 h-5 inline-flex items-center justify-center">←</span></button>
-              <h1 className="text-xl font-bold text-white">Complete Booking</h1>
+              <button onClick={() => router.back()} className="min-w-[44px] min-h-[44px] flex items-center justify-center text-sandstone/60 hover:text-paper transition-colors">
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              <h1 className="font-display text-xl text-paper">Complete Booking</h1>
             </div>
 
-            <div className="metal-card rounded-xl p-4 mb-6 flex items-center gap-4">
-              <Bus className="w-8 h-8 text-indigo-400" />
-              <div className="flex-1">
-                <p className="text-white font-medium">{origin} → {destination}</p>
-                <p className="text-sm text-slate-400">{travelDate} • {seatIds.length} seat{seatIds.length > 1 ? 's' : ''}</p>
-              </div>
-              <div className="text-right">
-                <div className="text-lg font-bold text-indigo-400">{priceINR(totalPrice)}</div>
-              </div>
+            <div className="px-4 py-3 -mx-4 bg-harbour border-b border-monsoon/40 mb-6">
+              <p className="text-sm font-medium text-paper">{origin} &rarr; {destination}</p>
+              <p className="text-xs text-sandstone/50">{travelDate} &middot; {seatIds.length} seat{seatIds.length > 1 ? 's' : ''} &middot; <span className="font-mono text-gate-gold font-bold">{priceINR(totalPrice)}</span></p>
             </div>
 
-            <div className="metal-card rounded-xl p-4 mb-6 grid grid-cols-2 gap-4 text-sm">
+            <div className="bg-harbour border border-monsoon/50 rounded-xl p-4 mb-6 grid grid-cols-2 gap-4 text-xs">
               <div>
-                <span className="text-xs text-slate-400 block">Boarding</span>
-                <span className="text-white font-medium">{boardingPointName}</span>
-                <span className="text-slate-500 text-xs block">{formatTime(boardingPointTime)}</span>
+                <span className="text-xs text-sandstone/50 block">Boarding</span>
+                <span className="text-paper font-medium text-xs">{boardingPointName}</span>
+                <span className="text-sandstone/50 text-xs block">{formatTime(boardingPointTime)}</span>
               </div>
               <div>
-                <span className="text-xs text-slate-400 block">Dropping</span>
-                <span className="text-white font-medium">{droppingPointName}</span>
-                <span className="text-slate-500 text-xs block">{formatTime(droppingPointTime)}</span>
+                <span className="text-xs text-sandstone/50 block">Dropping</span>
+                <span className="text-paper font-medium text-xs">{droppingPointName}</span>
+                <span className="text-sandstone/50 text-xs block">{formatTime(droppingPointTime)}</span>
               </div>
             </div>
 
             {error && (
-              <div className="bg-red-900/30 border border-red-800 text-red-300 px-4 py-3 rounded-xl mb-4 text-sm flex items-center gap-2">
+              <div className="bg-gate-gold/10 border border-gate-gold/20 text-gate-gold px-4 py-3 rounded-xl mb-4 text-xs flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 {error}
               </div>
             )}
 
-            <form onSubmit={handleInitiate} className="space-y-6">
+            <form onSubmit={handleInitiate} className="space-y-5">
               {travelers.map((traveler, idx) => (
-                <div key={idx} className="metal-card rounded-xl p-5">
-                  <h2 className="text-sm font-semibold text-indigo-400 mb-4 flex items-center gap-2">
-                    <User className="w-4 h-4" /> Traveler {idx + 1} — Seat {seatIds[idx]}
+                <div key={idx} className="bg-harbour border border-monsoon/50 rounded-xl p-5">
+                  <h2 className="text-xs font-semibold text-gate-gold mb-4 flex items-center gap-2 uppercase tracking-wider">
+                    <User className="w-3.5 h-3.5" /> Traveler {idx + 1} &mdash; Seat {seatIds[idx]}
                   </h2>
                   <div className="grid grid-cols-3 gap-4">
                     <div className="col-span-1">
-                      <label className="block text-xs text-slate-400 mb-1">Name</label>
+                      <label className="block text-xs text-sandstone/50 mb-1.5">Name</label>
                       <input value={traveler.name} onChange={e => updateTraveler(idx, 'name', e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-indigo-500" required />
+                        className="w-full bg-sea-deep border border-monsoon/60 rounded-lg py-2 px-3 text-paper text-xs focus:outline-none focus:border-gate-gold/60 placeholder:text-sandstone/30" required placeholder="Full name" />
                     </div>
                     <div>
-                      <label className="block text-xs text-slate-400 mb-1">Age</label>
+                      <label className="block text-xs text-sandstone/50 mb-1.5">Age</label>
                       <input type="number" min={0} max={120} value={traveler.age} onChange={e => updateTraveler(idx, 'age', e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-indigo-500" required />
+                        className="w-full bg-sea-deep border border-monsoon/60 rounded-lg py-2 px-3 text-paper text-xs focus:outline-none focus:border-gate-gold/60" required />
                     </div>
                     <div>
-                      <label className="block text-xs text-slate-400 mb-1">Gender</label>
+                      <label className="block text-xs text-sandstone/50 mb-1.5">Gender</label>
                       <select value={traveler.gender} onChange={e => updateTraveler(idx, 'gender', e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-indigo-500">
+                        className="w-full bg-sea-deep border border-monsoon/60 rounded-lg py-2 px-3 text-paper text-xs focus:outline-none focus:border-gate-gold/60">
                         <option value="">Select</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -282,61 +291,61 @@ function BusConfirmContent() {
               ))}
 
               <button type="submit"
-                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-semibold transition-colors text-lg">
-                Continue to Payment — {priceINR(totalPrice)}
+                className="w-full bg-gate-gold hover:bg-gate-gold-dim text-sea-deep py-3 rounded-xl font-bold text-sm transition-colors">
+                Continue to Payment &mdash; {priceINR(totalPrice)}
               </button>
             </form>
           </>
         )}
 
         {step === 'payment' && initResult && (
-          <div className="max-w-md mx-auto space-y-6">
-            <h1 className="text-xl font-bold text-white">Complete Payment</h1>
+          <div className="max-w-md mx-auto space-y-5">
+            <h1 className="font-display text-xl text-paper">Complete Payment</h1>
 
             {error && (
-              <div className="bg-red-900/30 border border-red-800 text-red-300 px-4 py-3 rounded-xl text-sm flex items-center gap-2">
+              <div className="bg-gate-gold/10 border border-gate-gold/20 text-gate-gold px-4 py-3 rounded-xl text-xs flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 {error}
               </div>
             )}
 
-            <div className="metal-card rounded-xl p-5">
-              <p className="text-sm text-slate-400 mb-1">Total Amount</p>
-              <p className="text-3xl font-bold text-indigo-400">{priceINR(initResult.lockedPrice)}</p>
+            <div className="bg-harbour border border-monsoon/50 rounded-xl p-5">
+              <p className="text-xs text-sandstone/60 mb-1">Total Amount</p>
+              <p className="text-3xl font-bold font-mono text-gate-gold">{priceINR(initResult.lockedPrice)}</p>
               {initResult.expiresAtUtc && (
-                <p className="text-xs text-slate-500 mt-2 flex items-center gap-1">
+                <p className="text-xs text-sandstone/50 mt-2 flex items-center gap-1">
                   <Clock className="w-3 h-3" /> Expires at {formatTime(initResult.expiresAtUtc)}
                 </p>
               )}
             </div>
 
-            <div className="metal-card rounded-xl p-5">
-              <h2 className="text-sm font-semibold text-white mb-3">Payment Method</h2>
+            <div className="bg-harbour border border-monsoon/50 rounded-xl p-5">
+              <h2 className="text-xs font-semibold text-paper/80 mb-3 uppercase tracking-wider">Payment Method</h2>
               <div className="space-y-2">
                 {['UPI', 'CreditCard', 'DebitCard', 'NetBanking', 'Wallet'].map(m => (
-                  <label key={m} className="flex items-center gap-3 p-3 rounded-lg bg-slate-900 border border-slate-700 cursor-pointer hover:border-indigo-500 transition-colors">
+                  <label key={m} className="flex items-center gap-3 p-3.5 rounded-lg bg-sea-deep border border-monsoon/50 cursor-pointer hover:border-gate-gold/40 transition-colors">
                     <input type="radio" name="payment" value={m} checked={paymentMethod === m} onChange={e => setPaymentMethod(e.target.value)}
-                      className="accent-indigo-500" />
-                    <span className="text-sm text-slate-200">{m === 'CreditCard' ? 'Credit Card' : m === 'DebitCard' ? 'Debit Card' : m === 'NetBanking' ? 'Net Banking' : m}</span>
+                      className="accent-gate-gold w-4 h-4" />
+                    <span className="text-xs text-sandstone/70">{m === 'CreditCard' ? 'Credit Card' : m === 'DebitCard' ? 'Debit Card' : m === 'NetBanking' ? 'Net Banking' : m}</span>
                   </label>
                 ))}
               </div>
             </div>
 
-            <div className="metal-card rounded-xl p-4 flex items-start gap-3 text-sm text-slate-400">
-              <MapPin className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
+            <div className="bg-harbour border border-monsoon/50 rounded-xl p-4 flex items-start gap-3 text-xs text-sandstone/60">
+              <MapPin className="w-4 h-4 text-gate-gold shrink-0 mt-0.5" />
               <div>
-                <p className="text-white font-medium mb-1">Boarding: {boardingPointName}</p>
+                <p className="text-paper/80 font-medium text-xs mb-1">Boarding: {boardingPointName}</p>
                 <p className="text-xs">Dropping: {droppingPointName}</p>
               </div>
             </div>
 
             <button onClick={handleConfirm}
-              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-semibold transition-colors text-lg">
+              className="w-full bg-gate-gold hover:bg-gate-gold-dim text-sea-deep py-3 rounded-xl font-bold text-sm transition-colors">
               Pay {priceINR(initResult.lockedPrice)}
             </button>
 
-            <p className="text-xs text-slate-500 text-center">By clicking Pay, you agree to the cancellation policy and terms of service.</p>
+            <p className="text-xs text-sandstone/50 text-center">By clicking Pay, you agree to the cancellation policy and terms of service.</p>
           </div>
         )}
       </main>

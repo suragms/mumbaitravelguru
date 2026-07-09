@@ -71,7 +71,7 @@ export default function AdminUsersPage() {
       {loading ? (
         <div className="flex items-center justify-center py-20"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-indigo-500" /></div>
       ) : !data ? (
-        <div className="text-slate-400 text-center py-20">Failed to load.</div>
+        <div className="text-slate-400 text-center py-20">Could not load users.</div>
       ) : (
         <div className="overflow-x-auto rounded-xl border border-slate-800">
           <table className="w-full text-left">
